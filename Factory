@@ -1,0 +1,53 @@
+#include <iostream>
+
+// Base class... factory members are usually defined in the base class
+// Parent defines how children are created
+enum ShapeType
+{
+    CircleType = 0,
+    SquareType = 1
+};
+
+class Shape
+{
+public:
+    virtual void drawShape() = 0;
+    static Shape* makeShape(ShapeType type);
+};
+
+// A couple of derived classes
+class Circle : public Shape
+{
+public:
+    virtual void drawShape()
+    {
+        std::cout << "Drawing a circle" << std::endl;
+    }
+};
+
+class Square : public Shape
+{
+public:
+    virtual void drawShape()
+    {
+        std::cout << "Drawing a square" << std::endl;
+    }
+};
+
+// Definition of the factory function
+// If you add more shapes, only this function will change, w/o need to 
+// change client code
+Shape* Shape::makeShape(ShapeType type)
+{
+    if(type == CircleType)
+        return new Circle();
+    if(type == SquareType)
+        return new Square();
+    
+    return NULL;
+}
+
+
+int main() {
+    Shape::makeShape(SquareType)->drawShape();
+}
